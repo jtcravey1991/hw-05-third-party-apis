@@ -1,7 +1,12 @@
 // variable for holding all time block text
 var timeBlocksText = ["", "", "", "", "", "", "", "", ""];
-
+//accesses timeBlocks for event delegation
 var timeBlocks = document.getElementById("timeBlocks");
+// current hour for text area coloring
+var currentHour = moment().format("H");
+
+// sets current date in currentDay p
+$("#currentDay").text(moment().format("dddd, MMMM Do"));
 
 renderTimeBlocks();
 
@@ -32,8 +37,16 @@ function renderTimeBlocks() {
         }
 
         // creates text area addes classes, index and value
-        var textArea = $("<textarea>").addClass("future");
-        textArea.addClass("col-8 col-md-10");
+        var textArea = $("<textarea>").addClass("col-8 col-md-10");
+        if ((i + 9) < currentHour) {
+            textArea.addClass("past");
+        }
+        else if ((i + 9) == currentHour) {
+            textArea.addClass("present");
+        }
+        else {
+            textArea.addClass("future");
+        }
         textArea.attr("index", i);
         textArea.val(timeBlocksText[i]);
 
@@ -54,11 +67,12 @@ function renderTimeBlocks() {
     }
 }
 
+// adds event listener to save timeBlock
 timeBlocks.addEventListener("click", function (event) {
     if (event.target.type === "button") {
         var index = event.target.getAttribute("index");
         var content = event.target.parentElement.children[1].value;
         timeBlocksText[index] = content;
-        renderTimeBlocks();
     }
 });
+
