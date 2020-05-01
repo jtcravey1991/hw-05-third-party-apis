@@ -5,10 +5,17 @@ var timeBlocks = document.getElementById("timeBlocks");
 // current hour for text area coloring
 var currentHour = moment().format("H");
 
-// sets current date in currentDay p
-$("#currentDay").text(moment().format("dddd, MMMM Do"));
+// calls initialization
+initialize();
 
-renderTimeBlocks();
+// function to initialize page
+function initialize() {
+    // sets current date in currentDay p
+    $("#currentDay").text(moment().format("dddd, MMMM Do"));
+
+    loadSchedule();
+    renderTimeBlocks();
+}
 
 // renders time blocks
 function renderTimeBlocks() {
@@ -72,7 +79,21 @@ timeBlocks.addEventListener("click", function (event) {
     if (event.target.type === "button") {
         var index = event.target.getAttribute("index");
         var content = event.target.parentElement.children[1].value;
-        timeBlocksText[index] = content;
+        alert(index + " " + content);
+        timeBlocksText.splice(index, 1, content);
+        saveSchedule();
     }
 });
 
+// saves currently loaded schedule to localStorage
+function saveSchedule() {
+    localStorage.setItem("timeBlocksText", JSON.stringify(timeBlocksText));
+}
+// loads schedule from local storage
+function loadSchedule() {
+    var tempLoad = JSON.parse(localStorage.getItem("timeBlocksText"));
+
+    if (tempLoad !== null) {
+        timeBlocksText = tempLoad;
+    }
+}
