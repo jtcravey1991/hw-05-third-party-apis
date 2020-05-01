@@ -79,7 +79,12 @@ timeBlocks.addEventListener("click", function (event) {
     if (event.target.type === "button") {
         var index = event.target.getAttribute("index");
         var content = event.target.parentElement.children[1].value;
-        alert(index + " " + content);
+        timeBlocksText.splice(index, 1, content);
+        saveSchedule();
+    }
+    else if (event.target.parentElement.type === "button") {
+        var index = event.target.parentElement.getAttribute("index");
+        var content = event.target.parentElement.parentElement.children[1].value;
         timeBlocksText.splice(index, 1, content);
         saveSchedule();
     }
