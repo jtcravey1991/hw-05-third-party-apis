@@ -1,5 +1,7 @@
 // variable for holding all time block text
-var timeBlocks = [];
+var timeBlocksText = ["", "", "", "", "", "", "", "", ""];
+
+var timeBlocks = document.getElementById("timeBlocks");
 
 renderTimeBlocks();
 
@@ -29,10 +31,11 @@ function renderTimeBlocks() {
             hourDiv.text(time + "PM")
         }
 
-        // creates text area
+        // creates text area addes classes, index and value
         var textArea = $("<textarea>").addClass("future");
         textArea.addClass("col-8 col-md-10");
         textArea.attr("index", i);
+        textArea.val(timeBlocksText[i]);
 
         // creates save button
         var saveButton = $("<button>").attr("type", "button");
@@ -46,6 +49,16 @@ function renderTimeBlocks() {
         // appends elements to timeBlock
         timeBlock.append(hourDiv, textArea, saveButton);
 
+        // appends new time block to the page
         $("#timeBlocks").append(timeBlock);
     }
 }
+
+timeBlocks.addEventListener("click", function (event) {
+    if (event.target.type === "button") {
+        var index = event.target.getAttribute("index");
+        var content = event.target.parentElement.children[1].value;
+        timeBlocksText[index] = content;
+        renderTimeBlocks();
+    }
+});
